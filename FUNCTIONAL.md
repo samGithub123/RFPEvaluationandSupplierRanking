@@ -62,6 +62,7 @@ The result is a repeatable, explainable, and auditable evaluation process.
 - Persisting the complete result to SQLite.
 - Displaying a leaderboard and detailed scorecards.
 - Downloading the complete result as JSON.
+- Optionally exposing a locally running Streamlit app through a public ngrok URL.
 
 ### 4.2 Out of Scope
 
@@ -178,6 +179,7 @@ decide final arithmetic, benchmarks, tie-breaks, or ranks.
 4. The system extracts, scores, validates, benchmarks, and ranks.
 5. Review the leaderboard and drill into scorecards.
 6. Download the full JSON result.
+7. Optionally start the ngrok tunnel in a second terminal to share the local app.
 
 ---
 

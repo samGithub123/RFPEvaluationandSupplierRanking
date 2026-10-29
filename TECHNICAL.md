@@ -22,6 +22,7 @@ deterministic components.
 | AI layer | Any JSON-capable LLM (default: OpenAI via `langchain-openai`) |
 | PDF extraction | `pypdf` |
 | Validation | `pydantic` (plus custom normalization) |
+| Optional local public tunnel | `pyngrok` |
 | Language | Python 3.x |
 
 ---
@@ -55,6 +56,9 @@ deterministic components.
               └──────────────────────────────┘
 ```
 
+For optional public access to a local run, `tunnel.py` connects ngrok to the
+Streamlit server on port 8501. The tunnel runs independently from the app.
+
 ### 3.1 Component Responsibilities
 
 | Component | Module | Responsibility |
@@ -80,6 +84,7 @@ RFPEvaluationandSupplierRanking/
 ├── scoring.py             # Absolute score, benchmark, gap, relative %, PPI
 ├── ranking.py             # Tie-break sort + rank assignment
 ├── keys.py                # API key loading from .env
+├── tunnel.py              # Optional ngrok tunnel for the local Streamlit app
 ├── logger.py              # Central logging config (file + console)
 ├── seed_db.py             # Create schema + seed criteria
 ├── requirements.txt
@@ -195,7 +200,15 @@ RFPEvaluationandSupplierRanking/
 - Implements the mandatory stable tie-break sort.
 - `tie_break_explanation()` -> str explaining the tie-break order.
 
-### 6.7 `app.py`
+### 6.7 `tunnel.py`
+
+- Reads `NGROK_AUTH_TOKEN` from the project `.env` file via `keys.py`.
+- Connects an ngrok public URL to the local Streamlit server on port 8501.
+- Prints the public URL and keeps the tunnel alive until Enter is pressed.
+- Requires `pyngrok` and a configured ngrok auth token; run it in a second
+  terminal after starting `streamlit run app.py`.
+
+### 6.8 `app.py`
 
 - Streamlit UI.
 - Seeds the database on first run (idempotent).
@@ -428,6 +441,16 @@ rules were applied.
 - Set the LLM API key as a Streamlit secret / environment variable.
 - `app.py` is the entry point.
 - Seed criteria on first run or via `seed_db.py`.
+
+### 16.1 Optional local ngrok tunnel
+
+- Install the project dependencies, including `pyngrok` from `requirements.txt`.
+- Set `NGROK_AUTH_TOKEN` in the root `.env` file; keep the token out of source
+  control.
+- Start the app with `streamlit run app.py`, then run `python tunnel.py` in a
+  second terminal.
+- The tunnel prints a public URL for port 8501. Keep both processes running
+  while the URL is in use; press Enter in the tunnel terminal to stop it.
 
 ---
 

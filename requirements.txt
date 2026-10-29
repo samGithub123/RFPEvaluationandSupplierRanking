@@ -3,3 +3,4 @@ pypdf
 langchain-openai
 pydantic
 python-dotenv
+pyngrok

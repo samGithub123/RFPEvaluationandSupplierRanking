@@ -10,6 +10,7 @@ What it is for:
 What it does:
     ✅ Loads a `.env` file placed next to this script.
     ✅ Exposes `OPENAI_API_KEY`.
+    ✅ Exposes `NGROK_AUTH_TOKEN` for optional public tunnels.
     ✅ Mirrors the key back into `os.environ` so the OpenAI / LangChain
        SDKs can pick it up automatically.
     ✅ Provides `require()` to fail with a clear message when the key is
@@ -20,6 +21,7 @@ Setup:
     2. Add your key, e.g.:
 
         OPENAI_API_KEY=sk-...
+        NGROK_AUTH_TOKEN=...  # optional; only needed for ngrok tunnels
 
     3. Never commit the `.env` file (it is ignored via the local .gitignore).
 
@@ -37,6 +39,7 @@ _ENV_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env")
 load_dotenv(_ENV_PATH, override=True)
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+NGROK_AUTH_TOKEN = os.getenv("NGROK_AUTH_TOKEN")
 
 # Many SDKs (OpenAI, LangChain) pick up credentials automatically from the
 # environment, so mirror whatever we found back into os.environ.

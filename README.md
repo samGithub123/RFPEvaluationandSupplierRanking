@@ -141,6 +141,7 @@ The LLM is allowed to judge proposal quality, but it does not decide arithmetic,
 - AI layer: JSON-capable LLM, default OpenAI via langchain-openai
 - PDF extraction: pypdf
 - Validation: pydantic and custom normalization logic
+- Optional public access for local runs: pyngrok
 - Language: Python 3.x
 
 ## System Architecture
@@ -163,8 +164,9 @@ The application follows a simple layered flow:
 - validation.py — Pydantic schema and normalization
 - scoring.py — absolute score, benchmark, gap, relative percentage, and PPI logic
 - ranking.py — deterministic sorting and ranking rules
+- tunnel.py — exposes the running local Streamlit app through ngrok
 - seed_db.py — database creation and initial seed data
-- keys.py — environment variable loading for API credentials
+- keys.py — environment variable loading for API credentials and optional ngrok token
 - logger.py — logging configuration
 - requirements.txt — Python dependencies
 - data/ — sample supplier PDFs
@@ -318,6 +320,7 @@ Create a .env file in the project root with your API key:
 
 ```env
 OPENAI_API_KEY=your_api_key_here
+NGROK_AUTH_TOKEN=your_ngrok_auth_token  # Optional; only needed for a public tunnel
 ```
 
 ### 4. Initialize the database
@@ -337,6 +340,18 @@ Then open the local Streamlit URL shown in the terminal, typically:
 ```text
 http://localhost:8501
 ```
+
+To expose the running app with a public ngrok URL, start a second terminal in
+the project folder and run:
+
+```bash
+python tunnel.py
+```
+
+The public URL is printed in that terminal. Keep both terminals running while
+using the tunnel; press Enter in the tunnel terminal to stop it. Get an ngrok
+auth token from https://dashboard.ngrok.com/get-started/your-authtoken and
+store it only in `.env`, not in source control.
 
 ## Notes
 
