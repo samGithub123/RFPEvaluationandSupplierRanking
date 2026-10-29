@@ -1,0 +1,38 @@
+# Environment / secrets
+.env
+
+
+# Local SQLite database (generated at runtime)
+rfp.db
+*.db
+
+# Runtime logs
+*.log
+rfp_evaluation.log
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+
+# Streamlit local state
+.streamlit/
+
+# Test / coverage artifacts
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
